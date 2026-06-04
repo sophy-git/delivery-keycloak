@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-keycloak
+  labels:
+    app: delivery-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delivery-keycloak
+  template:
+    metadata:
+      labels:
+        app: delivery-keycloak
+    spec:
+      containers:
+        - name: delivery-keycloak
+          image: yklee2002/delivery-keycloak:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              value: "http://keycloak.keycloak.svc.cluster.local:8080/realms/cretec"
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delivery-keycloak-service
+  labels:
+    app: delivery-keycloak
+spec:
+  type: ClusterIP
+  selector:
+    app: delivery-keycloak
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
