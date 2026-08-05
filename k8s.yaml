@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: delivery-keycloak
-          image: yklee2002/delivery-keycloak:latest
+          image: punsophy678/delivery-keycloak:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
